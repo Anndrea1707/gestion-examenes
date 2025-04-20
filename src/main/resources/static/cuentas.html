@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuentas Registradas - Sistema Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 1000px;
+      text-align: center;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+
+    .info-box h2 {
+      font-size: 1.8rem;
+      color: #e0e7ff;
+      margin-bottom: 20px;
+    }
+
+    .info-box p {
+      color: #c7d2fe;
+      margin-bottom: 20px;
+    }
+
+    .login-button {
+      background-color: #8b5cf6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .login-button:hover {
+      background-color: #7c3aed;
+    }
+
+    .logout-button {
+      background-color: #dc2626;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .logout-button:hover {
+      background-color: #b91c1c;
+    }
+
+    .table-container {
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      color: #c7d2fe;
+    }
+
+    th {
+      background-color: #8b5cf6;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cuentas Registradas - Sistema Saber Pro</h1>
+    <p>Consulta todas las cuentas de coordinadores y estudiantes</p>
+  </header>
+
+  <main>
+    <img src="https://cdn-icons-png.flaticon.com/128/6819/6819117.png" alt="Cuentas" class="icon">
+
+    <div class="info-box">
+      <h2>Gestión de Cuentas</h2>
+      <p>Aquí puedes ver todas las cuentas registradas en el sistema, separadas por coordinadores y estudiantes.</p>
+      <div>
+        <a href="/login.html" class="login-button">Iniciar Sesion</a>
+        <a href="/logout" class="logout-button">Inicio</a>
+      </div>
+    </div>
+
+    <!-- Sección de Coordinadores -->
+    <div class="table-container">
+      <h2 style="color: #e0e7ff; margin-bottom: 20px;">Coordinadores</h2>
+      <table id="coordinadores-table">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Contraseña</th>
+          </tr>
+        </thead>
+        <tbody id="coordinadores-body">
+          <tr>
+            <td colspan="2" style="text-align: center;">Cargando...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sección de Estudiantes -->
+    <div class="table-container">
+      <h2 style="color: #e0e7ff; margin-bottom: 20px;">Estudiantes</h2>
+      <table id="estudiantes-table">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Contraseña</th>
+          </tr>
+        </thead>
+        <tbody id="estudiantes-body">
+          <tr>
+            <td colspan="2" style="text-align: center;">Cargando...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+  </footer>
+
+  <script>
+    // Función para cargar los datos de coordinadores y estudiantes
+    async function loadAccounts() {
+      try {
+        const response = await fetch('/api/cuentas');
+        if (!response.ok) {
+          throw new Error('Error al obtener las cuentas');
+        }
+        const data = await response.json();
+
+        // Renderizar coordinadores
+        const coordinadoresBody = document.getElementById('coordinadores-body');
+        coordinadoresBody.innerHTML = '';
+        if (data.coordinadores.length === 0) {
+          coordinadoresBody.innerHTML = '<tr><td colspan="2" style="text-align: center;">No hay coordinadores registrados</td></tr>';
+        } else {
+          data.coordinadores.forEach(coordinador => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${coordinador.documento}</td>
+              <td>${coordinador.password}</td>
+            `;
+            coordinadoresBody.appendChild(row);
+          });
+        }
+
+        // Renderizar estudiantes
+        const estudiantesBody = document.getElementById('estudiantes-body');
+        estudiantesBody.innerHTML = '';
+        if (data.estudiantes.length === 0) {
+          estudiantesBody.innerHTML = '<tr><td colspan="2" style="text-align: center;">No hay estudiantes registrados</td></tr>';
+        } else {
+          data.estudiantes.forEach(estudiante => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${estudiante.documento}</td>
+              <td>${estudiante.contrasena}</td>
+            `;
+            estudiantesBody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('coordinadores-body').innerHTML = '<tr><td colspan="2" style="text-align: center;">Error al cargar coordinadores</td></tr>';
+        document.getElementById('estudiantes-body').innerHTML = '<tr><td colspan="2" style="text-align: center;">Error al cargar estudiantes</td></tr>';
+      }
+    }
+
+    // Cargar los datos al iniciar la página
+    window.onload = loadAccounts;
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión - Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #e0e7ff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #dbeafe;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .form-group input::placeholder {
+      color: #e5e7eb;
+    }
+
+    .login-button {
+      background-color: #8b5cf6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-button:hover {
+      background-color: #7c3aed;
+    }
+
+    .back-link, .register-link {
+      display: block;
+      margin-top: 15px;
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover, .register-link:hover {
+      text-decoration: underline;
+    }
+
+    .alert {
+      background-color: #fca5a5;
+      color: #1e3a8a;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <div id="errorMessage" class="alert"></div>
+    <form action="/login" method="post">
+      <div class="form-group">
+        <label for="username">Documento</label>
+        <input type="text" id="username" name="username" placeholder="Ingresa tu documento" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required />
+      </div>
+      <button type="submit" class="login-button">Entrar</button>
+    </form>
+    <a href="/" class="back-link">← Volver al inicio</a>
+  </div>
+
+  <script>
+    // Mostrar mensaje de error si la autenticación falla
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error')) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = 'Documento o contraseña incorrectos.';
+      errorMessage.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

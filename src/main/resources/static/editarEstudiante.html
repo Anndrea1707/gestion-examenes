@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+   <html lang="es">
+   <head>
+     <meta charset="UTF-8">
+     <title>Editar Estudiante - Sistema Saber Pro</title>
+     <style>
+       body {
+         margin: 0;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+         color: white;
+         min-height: 100vh;
+         display: flex;
+         flex-direction: column;
+       }
+
+       header {
+         text-align: center;
+         padding: 40px 20px 20px;
+       }
+
+       header h1 {
+         font-size: 2.5rem;
+         margin-bottom: 10px;
+       }
+
+       header p {
+         font-size: 1.2rem;
+         color: #d1d5db;
+       }
+
+       main {
+         flex: 1;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         padding: 20px;
+       }
+
+       .icon {
+         width: 100px;
+         height: 100px;
+         margin-bottom: 20px;
+         animation: bounce 2s infinite;
+       }
+
+       .register-container {
+         background-color: rgba(255, 255, 255, 0.1);
+         padding: 40px;
+         border-radius: 20px;
+         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+         max-width: 600px;
+         width: 100%;
+         text-align: center;
+         margin-bottom: 40px;
+       }
+
+       .register-container h2 {
+         font-size: 1.8rem;
+         color: #e0e7ff;
+         margin-bottom: 20px;
+       }
+
+       .alert {
+         background-color: #facc15;
+         color: #1e3a8a;
+         padding: 10px;
+         margin-bottom: 20px;
+         border-radius: 10px;
+         font-weight: bold;
+       }
+
+       .form-group {
+         margin-bottom: 20px;
+         text-align: left;
+       }
+
+       .form-group label {
+         display: block;
+         margin-bottom: 6px;
+         color: #c7d2fe;
+       }
+
+       .form-group input {
+         width: 100%;
+         padding: 10px;
+         border: none;
+         border-radius: 10px;
+         background-color: rgba(255, 255, 255, 0.2);
+         color: white;
+         font-size: 1rem;
+         box-sizing: border-box;
+       }
+
+       .form-group input::placeholder {
+         color: #e5e7eb;
+       }
+
+       .register-button {
+         background-color: #8b5cf6;
+         color: white;
+         padding: 10px 20px;
+         border: none;
+         font-weight: bold;
+         border-radius: 10px;
+         cursor: pointer;
+         width: 100%;
+         transition: background-color 0.3s ease;
+       }
+
+       .register-button:hover {
+         background-color: #7c3aed;
+       }
+
+       .back-link {
+         display: block;
+         margin-top: 15px;
+         color: #dbeafe;
+         text-decoration: none;
+         font-size: 0.9rem;
+       }
+
+       .back-link:hover {
+         text-decoration: underline;
+       }
+
+       .error {
+         color: #fca5a5;
+         font-size: 0.9rem;
+         display: none;
+         margin-top: 5px;
+       }
+
+       footer {
+         text-align: center;
+         padding: 15px;
+         font-size: 0.9rem;
+         color: #d1d5db;
+       }
+
+       @keyframes bounce {
+         0%, 100% {
+           transform: translateY(0);
+         }
+         50% {
+           transform: translateY(-15px);
+         }
+       }
+     </style>
+   </head>
+   <body>
+     <header>
+       <h1>Editar Estudiante - Sistema Saber Pro</h1>
+       <p>Actualiza la información del estudiante</p>
+     </header>
+
+     <main>
+       <img src="https://cdn-icons-png.flaticon.com/128/11498/11498767.png" alt="Estudiante" class="icon">
+       
+       <div class="register-container">
+         <h2>Editar Estudiante</h2>
+         <div class="alert">
+           Usa un correo institucional <strong>@correo.uts.edu.co</strong> para actualizar.
+         </div>
+         <form id="editForm" method="post" onsubmit="return validarFormulario()">
+           <div class="form-group">
+             <label for="nombreCompleto">Nombre Completo</label>
+             <input type="text" id="nombreCompleto" name="nombreCompleto" placeholder="Ej. Juan Pérez" required />
+           </div>
+
+           <div class="form-group">
+             <label for="documento">Documento de Identidad</label>
+             <input type="text" id="documento" name="documento" placeholder="Ej. 123456789" readonly />
+             <div id="errorDocumento" class="error">El documento debe contener solo números.</div>
+           </div>
+
+           <div class="form-group">
+             <label for="correo">Correo Electrónico</label>
+             <input type="email" id="correo" name="correo" placeholder="Ej. estudiante@correo.uts.edu.co" required />
+             <div id="errorCorreo" class="error">El correo debe ser institucional: @uts.edu.co</div>
+           </div>
+
+           <div class="form-group">
+             <label for="contrasena">Contraseña (dejar en blanco para no cambiar)</label>
+             <input type="password" id="contrasena" name="contrasena" placeholder="Nueva contraseña" />
+             <div id="errorContrasena" class="error">La contraseña debe tener al menos 8 caracteres y un carácter especial.</div>
+           </div>
+
+           <button type="submit" class="register-button">Actualizar</button>
+         </form>
+         <a href="/estudiantes.html" class="back-link">← Volver a la Lista de Estudiantes</a>
+       </div>
+     </main>
+
+     <footer>
+       © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+     </footer>
+
+     <script>
+		// Obtener el documento desde la URL o el parámetro de consulta
+		const urlParams = new URLSearchParams(window.location.search);
+		const documento = urlParams.get('documento') || window.location.pathname.split('/').pop();
+
+		// Cargar datos del estudiante
+		async function loadStudent() {
+		  try {
+		    const response = await fetch(`/estudiantes/api/${documento}`, {
+		      headers: {
+		        'Accept': 'application/json'
+		      }
+		    });
+		    if (!response.ok) {
+		      throw new Error(`Error ${response.status}: Estudiante no encontrado`);
+		    }
+		    const estudiante = await response.json();
+		    document.getElementById('nombreCompleto').value = estudiante.nombreCompleto;
+		    document.getElementById('documento').value = estudiante.documento;
+		    document.getElementById('correo').value = estudiante.correo;
+		    // Configurar la acción del formulario dinámicamente
+		    document.getElementById('editForm').action = `/estudiantes/update/${estudiante.documento}`;
+		  } catch (error) {
+		    console.error('Error:', error);
+		    const alert = document.createElement('div');
+		    alert.className = 'alert';
+		    alert.style.backgroundColor = '#fca5a5';
+		    alert.style.color = '#1e3a8a';
+		    alert.textContent = `Error: No se pudo cargar la información del estudiante (${error.message}).`;
+		    document.querySelector('.register-container').insertBefore(alert, document.querySelector('form'));
+		  }
+		}
+
+		// Validar el formulario
+		function validarFormulario() {
+		  const documento = document.getElementById('documento').value;
+		  const correo = document.getElementById('correo').value;
+		  const contrasena = document.getElementById('contrasena').value;
+		  const errorDocumento = document.getElementById('errorDocumento');
+		  const errorCorreo = document.getElementById('errorCorreo');
+		  const errorContrasena = document.getElementById('errorContrasena');
+
+		  const regexDocumento = /^\d+$/;
+		  const regexCorreo = /^[a-zA-Z0-9._%+-]+@uts\.edu\.co$/;
+		  const regexContrasena = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+		  let valido = true;
+
+		  if (!regexDocumento.test(documento)) {
+		    errorDocumento.style.display = "block";
+		    valido = false;
+		  } else {
+		    errorDocumento.style.display = "none";
+		  }
+
+		  if (!regexCorreo.test(correo)) {
+		    errorCorreo.style.display = "block";
+		    valido = false;
+		  } else {
+		    errorCorreo.style.display = "none";
+		  }
+
+		  // Validar contraseña solo si se ingresó una nueva
+		  if (contrasena && !regexContrasena.test(contrasena)) {
+		    errorContrasena.style.display = "block";
+		    valido = false;
+		  } else {
+		    errorContrasena.style.display = "none";
+		  }
+
+		  return valido;
+		}
+
+		// Mostrar mensajes de error si la actualización falla
+		window.onload = function() {
+		  loadStudent();
+		  const alertContainer = document.querySelector('.register-container');
+		  if (urlParams.has('error')) {
+		    const errorType = urlParams.get('error');
+		    const alert = document.createElement('div');
+		    alert.className = 'alert';
+		    alert.style.backgroundColor = '#fca5a5';
+		    alert.style.color = '#1e3a8a';
+		    if (errorType === 'notfound') {
+		      alert.textContent = 'Error: Estudiante no encontrado.';
+		    } else if (errorType === 'correoInvalido') {
+		      alert.textContent = 'Error: El correo debe ser institucional (@uts.edu.co).';
+		    } else if (errorType === 'contrasenaInvalida') {
+		      alert.textContent = 'Error: La contraseña debe tener al menos 8 caracteres y un carácter especial.';
+		    } else {
+		      alert.textContent = 'Error: No se pudo actualizar el estudiante.';
+		    }
+		    alertContainer.insertBefore(alert, alertContainer.querySelector('form'));
+		  }
+		};
+     </script>
+   </body>
+   </html>

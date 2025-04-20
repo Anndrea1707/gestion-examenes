@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio Estudiante - Sistema Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+
+    .info-box h2 {
+      font-size: 1.8rem;
+      color: #e0e7ff;
+      margin-bottom: 20px;
+    }
+
+    .info-box p {
+      color: #c7d2fe;
+      margin-bottom: 20px;
+    }
+
+    .info-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #e0e7ff;
+      color: #1e3a8a;
+      font-size: 1rem;
+    }
+
+    .info-box input[readonly] {
+      background-color: #d1d5db;
+      cursor: not-allowed;
+    }
+
+    .exam-details {
+      text-align: left;
+      color: #c7d2fe;
+      display: none;
+      margin-top: 20px;
+    }
+
+    .exam-details p {
+      margin: 10px 0;
+    }
+
+    .ranking-list {
+      text-align: left;
+      color: #c7d2fe;
+    }
+
+    .ranking-list p {
+      margin: 10px 0;
+    }
+
+    .alert {
+      background-color: #facc15;
+      color: #1e3a8a;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    button {
+      background-color: #facc15;
+      color: #1e3a8a;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #eab308;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+	
+	.logout-button {
+	      background-color: #facc15; /* Amarillo consistente con otros botones */
+	      color: #1e3a8a; /* Azul oscuro para contraste */
+	      padding: 10px 20px;
+	      border: none;
+	      border-radius: 10px;
+	      font-size: 1rem;
+	      font-weight: bold;
+	      cursor: pointer;
+	      margin-top: 20px;
+	      transition: background-color 0.3s ease;
+	    }
+
+	 .logout-button:hover {
+	      background-color: #eab308; /* Tono más oscuro al pasar el mouse */
+	 }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bienvenido, Estudiante</h1>
+    <p>Consulta tu información y resultados de la prueba Saber Pro</p>
+  </header>
+
+  <main>
+    <img src="https://cdn-icons-png.flaticon.com/128/10492/10492954.png" alt="Estudiante" class="icon">
+
+    <div class="info-box" id="personalInfo">
+      <h2>Datos Personales</h2>
+      <div id="alertPersonalInfo" class="alert" style="display: none;"></div>
+      <input type="text" id="nombreCompleto" readonly>
+      <input type="text" id="documento" readonly>
+      <input type="text" id="correo" readonly>
+    </div>
+
+    <div class="info-box" id="examInfo">
+      <h2>Resultados de la Prueba</h2>
+      <div id="alertExamInfo" class="alert" style="display: none;"></div>
+      <p><strong>Número de Prueba:</strong> <span id="numeroPrueba"></span></p>
+      <p><strong>Puntaje Total:</strong> <span id="puntajeTotal"></span></p>
+      <button id="toggleDetails">Ver Puntajes Específicos</button>
+      <div id="examDetails" class="exam-details"></div>
+    </div>
+
+    <div class="info-box" id="rankingInfo">
+      <h2>Ranking Global</h2>
+      <div id="alertRankingInfo" class="alert" style="display: none;"></div>
+      <p><strong>Tu Posición:</strong> <span id="posicion"></span></p>
+      <h3>Top 3 de mejores estudiantes - Global</h3>
+      <div id="top3" class="ranking-list"></div>
+    </div>
+	
+	<button onclick="logout()" class="logout-button">Cerrar Sesión</button>
+	
+  </main>
+
+  <footer>
+    © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+  </footer>
+
+  <script>
+    // Cargar datos personales
+    async function loadPersonalInfo() {
+      try {
+        console.log('Cargando datos personales');
+        const response = await fetch('/estudiantes/estudiante/api/personal');
+        if (!response.ok) {
+          throw new Error(`Error al cargar datos personales (HTTP ${response.status})`);
+        }
+        const estudiante = await response.json();
+        console.log('Estudiante:', estudiante);
+        document.getElementById('nombreCompleto').value = estudiante.nombreCompleto || 'No disponible';
+        document.getElementById('documento').value = estudiante.documento || 'No disponible';
+        document.getElementById('correo').value = estudiante.correo || 'No disponible';
+      } catch (error) {
+        console.error('Error al cargar datos personales:', error);
+        const alertMessage = document.getElementById('alertPersonalInfo');
+        alertMessage.textContent = `Error: No se pudo cargar la información personal (${error.message}).`;
+        alertMessage.style.backgroundColor = '#fca5a5';
+        alertMessage.style.display = 'block';
+      }
+    }
+
+    // Cargar información de la prueba
+    async function loadExamInfo() {
+      try {
+        console.log('Cargando información de la prueba');
+        const response = await fetch('/estudiantes/estudiante/api/examen');
+        if (!response.ok) {
+          throw new Error(`Error al cargar datos de la prueba (HTTP ${response.status})`);
+        }
+        const estudiante = await response.json();
+        console.log('Estudiante con prueba:', estudiante);
+        if (!estudiante.numeroReferenciaPrueba) {
+          console.log('No hay prueba asignada');
+          const alertMessage = document.getElementById('alertExamInfo');
+          alertMessage.textContent = 'No tienes una prueba asignada.';
+          alertMessage.style.display = 'block';
+          return;
+        }
+
+        const examResponse = await fetch(`/estudiantes/examenes/api/numero/${estudiante.numeroReferenciaPrueba}`);
+        if (!examResponse.ok) {
+          throw new Error(`Prueba no encontrada (HTTP ${examResponse.status})`);
+        }
+        const examen = await examResponse.json();
+        console.log('Examen:', examen);
+
+        document.getElementById('numeroPrueba').textContent = examen.numeroPrueba || 'No disponible';
+        const isAnulado = examen.nivelPuntajeTotal === 'No aplica';
+        document.getElementById('puntajeTotal').textContent = isAnulado ? 'Anulado' : `${examen.puntajeTotal} (${examen.nivelPuntajeTotal})`;
+
+        const examDetails = document.getElementById('examDetails');
+        examDetails.innerHTML = `
+          <p><strong>Comunicación Escrita:</strong> ${examen.puntajeComunicacionEscrita} (${examen.nivelPuntajeComunicacionEscrita})</p>
+          <p><strong>Razonamiento Cuantitativo:</strong> ${examen.puntajeRazonamientoCuantitativo} (${examen.nivelPuntajeRazonamientoCuantitativo})</p>
+          <p><strong>Lectura Crítica:</strong> ${examen.puntajeLecturaCritica} (${examen.nivelPuntajeLecturaCritica})</p>
+          <p><strong>Competencias Ciudadanas:</strong> ${examen.puntajeCompetenciasCiudadanas} (${examen.nivelPuntajeCompetenciasCiudadanas})</p>
+          <p><strong>Inglés:</strong> ${examen.puntajeIngles} (${examen.nivelPuntajeIngles}${examen.nivelDeIngles ? ', ' + examen.nivelDeIngles : ''})</p>
+          <p><strong>Formulación Proyecto Ingeniería:</strong> ${examen.puntajeFormulacionProyectoIngenieria} (${examen.nivelPuntajeFormulacionProyectoIngenieria})</p>
+          <p><strong>Pensamiento Científico:</strong> ${examen.puntajePensamientoCientificoMatematicasEstadistica} (${examen.nivelPuntajePensamientoCientificoMatematicasEstadistica})</p>
+          <p><strong>Diseño Software:</strong> ${examen.puntajeDisenoSoftware} (${examen.nivelPuntajeDisenoSoftware})</p>
+        `;
+      } catch (error) {
+        console.error('Error al cargar datos de la prueba:', error);
+        const alertMessage = document.getElementById('alertExamInfo');
+        alertMessage.textContent = `Error: No se pudo cargar la información de la prueba (${error.message}).`;
+        alertMessage.style.backgroundColor = '#fca5a5';
+        alertMessage.style.display = 'block';
+      }
+    }
+
+    // Cargar ranking
+    async function loadRanking() {
+      try {
+        console.log('Cargando ranking');
+        const response = await fetch('/estudiantes/estudiante/api/ranking');
+        if (!response.ok) {
+          throw new Error(`Error al cargar el ranking (HTTP ${response.status})`);
+        }
+        const ranking = await response.json();
+        console.log('Ranking:', ranking);
+        document.getElementById('posicion').textContent = ranking.posicion || 'No disponible';
+        
+        const top3 = document.getElementById('top3');
+        top3.innerHTML = ranking.top3.map((estudiante, index) => `
+          <p>${index + 1}. ${estudiante.nombreCompleto} (${estudiante.documento}): ${estudiante.puntajeTotal}</p>
+        `).join('');
+      } catch (error) {
+        console.error('Error al cargar el ranking:', error);
+        const alertMessage = document.getElementById('alertRankingInfo');
+        alertMessage.textContent = `Error: No se pudo cargar el ranking (${error.message}).`;
+        alertMessage.style.backgroundColor = '#fca5a5';
+        alertMessage.style.display = 'block';
+      }
+    }
+
+    // Alternar visibilidad de los puntajes específicos
+    document.getElementById('toggleDetails').addEventListener('click', () => {
+      const examDetails = document.getElementById('examDetails');
+      examDetails.style.display = examDetails.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Cargar toda la información al iniciar
+    window.onload = () => {
+      loadPersonalInfo();
+      loadExamInfo();
+      loadRanking();
+    };
+	
+	function logout() {
+	      fetch('/logout', {
+	        method: 'POST',
+	        headers: {
+	          'Content-Type': 'application/x-www-form-urlencoded',
+	        },
+	      })
+	      .then(response => {
+	        if (response.ok) {
+	          window.location.href = '/login.html?logout';
+	        } else {
+	          console.error('Error al cerrar sesión:', response.status);
+	        }
+	      })
+	      .catch(error => {
+	        console.error('Error al cerrar sesión:', error);
+	      });
+	 };
+  </script>
+</body>
+</html>

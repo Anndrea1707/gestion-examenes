@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Prueba - Sistema Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .register-container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .register-container h2 {
+      font-size: 1.8rem;
+      color: #e0e7ff;
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      background-color: #facc15;
+      color: #1e3a8a;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #c7d2fe;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .form-group input::placeholder, .form-group select::placeholder {
+      color: #e5e7eb;
+    }
+
+    .form-group input:disabled {
+      background-color: rgba(255, 255, 255, 0.1);
+      cursor: not-allowed;
+    }
+
+    .register-button {
+      background-color: #8b5cf6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .register-button:hover {
+      background-color: #7c3aed;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 15px;
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #fca5a5;
+      font-size: 0.9rem;
+      display: none;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Registrar Prueba - Sistema Saber Pro</h1>
+    <p>Asocia una prueba a un estudiante y registra sus resultados</p>
+  </header>
+
+  <main>
+    <img src="https://cdn-icons-png.flaticon.com/128/10492/10492954.png" alt="Prueba" class="icon">
+    
+    <div class="register-container">
+      <h2>Registrar Nueva Prueba</h2>
+      <div class="alert">
+        Selecciona un estudiante sin prueba asignada e ingresa los resultados. Si el puntaje total es "Anulado", los demás campos se deshabilitarán.
+      </div>
+      <form id="pruebaForm" method="post" onsubmit="return validarFormulario()">
+        <div class="form-group">
+          <label for="documento">Estudiante</label>
+          <select id="documento" name="documento" required>
+            <option value="" disabled selected>Selecciona un estudiante</option>
+          </select>
+          <div id="errorDocumento" class="error">Debes seleccionar un estudiante.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="numeroPrueba">Número de Prueba</label>
+          <input type="text" id="numeroPrueba" name="numeroPrueba" placeholder="Ej. PRU123" required />
+          <div id="errorNumeroPrueba" class="error">El número de prueba debe ser alfanumérico.</div>
+        </div>
+
+		<div class="form-group">
+		  <label for="puntajeTotalStr">Puntaje Total</label>
+		  <input type="text" id="puntajeTotalStr" name="puntajeTotalStr" placeholder="Ej. 150 o Anulado" required />
+		  <div id="errorPuntajeTotalStr" class="error">El puntaje debe ser un número positivo o 'Anulado'.</div>
+		</div>
+
+        <div class="form-group">
+          <label for="puntajeComunicacionEscrita">Puntaje Comunicación Escrita</label>
+          <input type="number" id="puntajeComunicacionEscrita" name="puntajeComunicacionEscrita" placeholder="Ej. 50" />
+          <div id="errorPuntajeComunicacionEscrita" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeRazonamientoCuantitativo">Puntaje Razonamiento Cuantitativo</label>
+          <input type="number" id="puntajeRazonamientoCuantitativo" name="puntajeRazonamientoCuantitativo" placeholder="Ej. 60" />
+          <div id="errorPuntajeRazonamientoCuantitativo" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeLecturaCritica">Puntaje Lectura Crítica</label>
+          <input type="number" id="puntajeLecturaCritica" name="puntajeLecturaCritica" placeholder="Ej. 55" />
+          <div id="errorPuntajeLecturaCritica" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeCompetenciasCiudadanas">Puntaje Competencias Ciudadanas</label>
+          <input type="number" id="puntajeCompetenciasCiudadanas" name="puntajeCompetenciasCiudadanas" placeholder="Ej. 45" />
+          <div id="errorPuntajeCompetenciasCiudadanas" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeIngles">Puntaje Inglés</label>
+          <input type="number" id="puntajeIngles" name="puntajeIngles" placeholder="Ej. 70" />
+          <div id="errorPuntajeIngles" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="nivelDeIngles">Nivel de Inglés</label>
+          <input type="text" id="nivelDeIngles" name="nivelDeIngles" placeholder="Ej. B1" />
+          <div id="errorNivelDeIngles" class="error">El nivel de inglés es obligatorio si hay puntaje de inglés.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeFormulacionProyectoIngenieria">Puntaje Formulación Proyecto Ingeniería</label>
+          <input type="number" id="puntajeFormulacionProyectoIngenieria" name="puntajeFormulacionProyectoIngenieria" placeholder="Ej. 65" />
+          <div id="errorPuntajeFormulacionProyectoIngenieria" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajePensamientoCientificoMatematicasEstadistica">Puntaje Pensamiento Científico</label>
+          <input type="number" id="puntajePensamientoCientificoMatematicasEstadistica" name="puntajePensamientoCientificoMatematicasEstadistica" placeholder="Ej. 60" />
+          <div id="errorPuntajePensamientoCientificoMatematicasEstadistica" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntajeDisenoSoftware">Puntaje Diseño Software</label>
+          <input type="number" id="puntajeDisenoSoftware" name="puntajeDisenoSoftware" placeholder="Ej. 55" />
+          <div id="errorPuntajeDisenoSoftware" class="error">El puntaje debe ser un número positivo.</div>
+        </div>
+
+        <button type="submit" class="register-button">Registrar Prueba</button>
+      </form>
+      <a href="/estudiantes.html" class="back-link">← Volver a la Lista de Estudiantes</a>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+  </footer>
+
+  <script>
+    // Cargar estudiantes sin prueba en el combo box
+    async function loadStudents() {
+      try {
+        const response = await fetch('/estudiantes/api/without-test');
+        if (!response.ok) {
+          throw new Error('Error al obtener estudiantes');
+        }
+        const estudiantes = await response.json();
+        const select = document.getElementById('documento');
+        estudiantes.forEach(estudiante => {
+          const option = document.createElement('option');
+          option.value = estudiante.documento;
+          option.textContent = `${estudiante.nombreCompleto} (${estudiante.documento})`;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        const alert = document.createElement('div');
+        alert.className = 'alert';
+        alert.style.backgroundColor = '#fca5a5';
+        alert.style.color = '#1e3a8a';
+        alert.textContent = 'Error: No se pudieron cargar los estudiantes.';
+        document.querySelector('.register-container').insertBefore(alert, document.querySelector('form'));
+      }
+    }
+
+    // Habilitar/deshabilitar campos según puntajeTotal
+	// Habilitar/deshabilitar campos según puntajeTotalStr
+	function toggleFields() {
+	  const puntajeTotal = document.getElementById('puntajeTotalStr').value.trim().toLowerCase();
+	  const fields = [
+	    'puntajeComunicacionEscrita',
+	    'puntajeRazonamientoCuantitativo',
+	    'puntajeLecturaCritica',
+	    'puntajeCompetenciasCiudadanas',
+	    'puntajeIngles',
+	    'nivelDeIngles',
+	    'puntajeFormulacionProyectoIngenieria',
+	    'puntajePensamientoCientificoMatematicasEstadistica',
+	    'puntajeDisenoSoftware'
+	  ];
+	  const isAnulado = puntajeTotal === 'anulado';
+	  fields.forEach(field => {
+	    const input = document.getElementById(field);
+	    input.disabled = isAnulado;
+	    if (isAnulado) {
+	      input.value = '';
+	    }
+	  });
+	}
+
+	// Validar el formulario
+	function validarFormulario() {
+	  const documento = document.getElementById('documento').value;
+	  const numeroPrueba = document.getElementById('numeroPrueba').value;
+	  const puntajeTotal = document.getElementById('puntajeTotalStr').value.trim().toLowerCase();
+	  const puntajeComunicacionEscrita = document.getElementById('puntajeComunicacionEscrita').value;
+	  const puntajeRazonamientoCuantitativo = document.getElementById('puntajeRazonamientoCuantitativo').value;
+	  const puntajeLecturaCritica = document.getElementById('puntajeLecturaCritica').value;
+	  const puntajeCompetenciasCiudadanas = document.getElementById('puntajeCompetenciasCiudadanas').value;
+	  const puntajeIngles = document.getElementById('puntajeIngles').value;
+	  const nivelDeIngles = document.getElementById('nivelDeIngles').value;
+	  const puntajeFormulacionProyectoIngenieria = document.getElementById('puntajeFormulacionProyectoIngenieria').value;
+	  const puntajePensamientoCientificoMatematicasEstadistica = document.getElementById('puntajePensamientoCientificoMatematicasEstadistica').value;
+	  const puntajeDisenoSoftware = document.getElementById('puntajeDisenoSoftware').value;
+
+	  const errorDocumento = document.getElementById('errorDocumento');
+	  const errorNumeroPrueba = document.getElementById('errorNumeroPrueba');
+	  const errorPuntajeTotal = document.getElementById('errorPuntajeTotalStr');
+	  const errorPuntajeComunicacionEscrita = document.getElementById('errorPuntajeComunicacionEscrita');
+	  const errorPuntajeRazonamientoCuantitativo = document.getElementById('errorPuntajeRazonamientoCuantitativo');
+	  const errorPuntajeLecturaCritica = document.getElementById('errorPuntajeLecturaCritica');
+	  const errorPuntajeCompetenciasCiudadanas = document.getElementById('errorPuntajeCompetenciasCiudadanas');
+	  const errorPuntajeIngles = document.getElementById('errorPuntajeIngles');
+	  const errorNivelDeIngles = document.getElementById('errorNivelDeIngles');
+	  const errorPuntajeFormulacionProyectoIngenieria = document.getElementById('errorPuntajeFormulacionProyectoIngenieria');
+	  const errorPuntajePensamientoCientificoMatematicasEstadistica = document.getElementById('errorPuntajePensamientoCientificoMatematicasEstadistica');
+	  const errorPuntajeDisenoSoftware = document.getElementById('errorPuntajeDisenoSoftware');
+
+	  const regexNumeroPrueba = /^[A-Za-z0-9]+$/;
+	  let valido = true;
+
+	  if (!documento) {
+	    errorDocumento.style.display = 'block';
+	    valido = false;
+	  } else {
+	    errorDocumento.style.display = 'none';
+	  }
+
+	  if (!regexNumeroPrueba.test(numeroPrueba)) {
+	    errorNumeroPrueba.style.display = 'block';
+	    valido = false;
+	  } else {
+	    errorNumeroPrueba.style.display = 'none';
+	  }
+
+	  if (puntajeTotal !== 'anulado' && (isNaN(puntajeTotal) || puntajeTotal < 0)) {
+	    errorPuntajeTotal.style.display = 'block';
+	    valido = false;
+	  } else {
+	    errorPuntajeTotal.style.display = 'none';
+	  }
+
+	  if (puntajeTotal !== 'anulado') {
+	    if (!puntajeComunicacionEscrita || puntajeComunicacionEscrita < 0) {
+	      errorPuntajeComunicacionEscrita.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeComunicacionEscrita.style.display = 'none';
+	    }
+
+	    if (!puntajeRazonamientoCuantitativo || puntajeRazonamientoCuantitativo < 0) {
+	      errorPuntajeRazonamientoCuantitativo.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeRazonamientoCuantitativo.style.display = 'none';
+	    }
+
+	    if (!puntajeLecturaCritica || puntajeLecturaCritica < 0) {
+	      errorPuntajeLecturaCritica.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeLecturaCritica.style.display = 'none';
+	    }
+
+	    if (!puntajeCompetenciasCiudadanas || puntajeCompetenciasCiudadanas < 0) {
+	      errorPuntajeCompetenciasCiudadanas.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeCompetenciasCiudadanas.style.display = 'none';
+	    }
+
+	    if (!puntajeIngles || puntajeIngles < 0) {
+	      errorPuntajeIngles.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeIngles.style.display = 'none';
+	    }
+
+	    if (!nivelDeIngles && puntajeIngles > 0) {
+	      errorNivelDeIngles.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorNivelDeIngles.style.display = 'none';
+	    }
+
+	    if (!puntajeFormulacionProyectoIngenieria || puntajeFormulacionProyectoIngenieria < 0) {
+	      errorPuntajeFormulacionProyectoIngenieria.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeFormulacionProyectoIngenieria.style.display = 'none';
+	    }
+
+	    if (!puntajePensamientoCientificoMatematicasEstadistica || puntajePensamientoCientificoMatematicasEstadistica < 0) {
+	      errorPuntajePensamientoCientificoMatematicasEstadistica.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajePensamientoCientificoMatematicasEstadistica.style.display = 'none';
+	    }
+
+	    if (!puntajeDisenoSoftware || puntajeDisenoSoftware < 0) {
+	      errorPuntajeDisenoSoftware.style.display = 'block';
+	      valido = false;
+	    } else {
+	      errorPuntajeDisenoSoftware.style.display = 'none';
+	    }
+	  }
+
+	  if (valido) {
+	    document.getElementById('pruebaForm').action = `/estudiantes/${documento}/test`;
+	  }
+
+	  return valido;
+	}
+
+	// Inicializar el formulario
+	window.onload = function() {
+	  loadStudents();
+	  toggleFields();
+	  document.getElementById('puntajeTotalStr').addEventListener('input', toggleFields);
+	  const urlParams = new URLSearchParams(window.location.search);
+	  if (urlParams.has('error')) {
+	    const alert = document.createElement('div');
+	    alert.className = 'alert';
+	    alert.style.backgroundColor = '#fca5a5';
+	    alert.style.color = '#1e3a8a';
+	    const error = urlParams.get('error');
+	    if (error === 'estudianteYaTienePrueba') {
+	      alert.textContent = 'Error: El estudiante ya tiene una prueba asignada.';
+	    } else if (error === 'estudianteNoEncontrado') {
+	      alert.textContent = 'Error: Estudiante no encontrado.';
+	    } else if (error === 'puntajeTotalInvalido') {
+	      alert.textContent = 'Error: El puntaje total debe ser un número válido o "Anulado".';
+	    } else if (error === 'puntajesInvalidos') {
+	      alert.textContent = 'Error: Los puntajes no pueden ser negativos.';
+	    }
+	    document.querySelector('.register-container').insertBefore(alert, document.querySelector('form'));
+	  }
+	};
+  </script>
+</body>
+</html>

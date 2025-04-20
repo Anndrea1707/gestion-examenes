@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .info-box h2 {
+      font-size: 1.8rem;
+      color: #e0e7ff;
+      margin-bottom: 20px;
+    }
+
+    .info-box ul {
+      text-align: left;
+      color: #c7d2fe;
+      margin-bottom: 20px;
+    }
+
+    .info-box ul li {
+      margin-bottom: 10px;
+    }
+
+    .login-button {
+      background-color: #8b5cf6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .login-button:hover {
+      background-color: #7c3aed;
+    }
+
+    .services {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .service-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 250px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #e0e7ff;
+    }
+
+    .service-card p {
+      font-size: 0.95rem;
+      color: #c7d2fe;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+	.icon, .bouncing-icon {
+	  width: 100px;
+	  height: 100px;
+	  margin-bottom: 20px;
+	  animation: bounce 2s infinite;
+	 }
+
+	 @keyframes bounce {
+	   0%, 100% {
+	     transform: translateY(0);
+	   }
+	   50% {
+	     transform: translateY(-15px);
+	   }
+	  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sistema de Gestión y Seguimiento Saber Pro</h1>
+    <p>Administra, consulta y visualiza los resultados de forma eficiente</p>
+  </header>
+
+  <main>
+    <img src="https://cdn-icons-png.flaticon.com/128/11545/11545317.png" alt="Educación" class="icon">
+    
+    <div class="info-box">
+      <h2>¿Qué puedes hacer aquí?</h2>
+      <ul>
+        <li>Gestión completa de estudiantes</li>
+        <li>Visualización de informes y rankings</li>
+        <li>Consulta de resultados individuales</li>
+      </ul>
+      <div>
+        <a href="/login.html" class="login-button">Iniciar Sesión</a>
+        <a href="/cuentas.html" class="login-button">Ver Cuentas</a>
+      </div>
+    </div>
+
+    <div class="services">
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/4333/4333609.png" alt="Pruebas Oficiales" class="bouncing-icon">
+        <h3>Pruebas Saber Pro</h3>
+        <p>Conoce los detalles y requisitos para presentar las pruebas oficiales del Saber Pro.</p>
+      </div>
+
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/10492/10492954.png" alt="Simulacros" class="bouncing-icon">
+        <h3>Simulacros en Línea</h3>
+        <p>Prepárate con simulacros prácticos que imitan la experiencia real del examen.</p>
+      </div>
+
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/906/906175.png" alt="Resultados" class="bouncing-icon">
+        <h3>Resultados e Informes</h3>
+        <p>Consulta los resultados individuales o grupales con visualización clara y detallada.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Coordinador - Sistema Saber Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #1e3a8a, #6b21a8);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .info-box h2 {
+      font-size: 1.8rem;
+      color: #e0e7ff;
+      margin-bottom: 20px;
+    }
+
+    .info-box p {
+      color: #c7d2fe;
+      margin-bottom: 20px;
+    }
+
+    .login-button {
+      background-color: #8b5cf6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .login-button:hover {
+      background-color: #7c3aed;
+    }
+
+    .logout-button {
+      background-color: #dc2626;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .logout-button:hover {
+      background-color: #b91c1c;
+    }
+
+    .services {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .service-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 250px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: scale(1.05);
+    }
+
+    .service-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #e0e7ff;
+    }
+
+    .service-card p {
+      font-size: 0.95rem;
+      color: #c7d2fe;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .icon, .bouncing-icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel de Coordinador - Sistema Saber Pro</h1>
+    <p>Gestiona estudiantes y exámenes de forma eficiente</p>
+  </header>
+
+  <main>
+    <img src="https://cdn-icons-png.flaticon.com/128/6323/6323073.png" alt="Coordinador" class="icon">
+    
+    <div class="info-box">
+      <h2>¡Bienvenido, Coordinador!</h2>
+      <p>Desde aquí puedes administrar estudiantes, registrar pruebas y consultar resultados.</p>
+      <div>
+        <a href="/logout" class="logout-button">Cerrar Sesión</a>
+      </div>
+    </div>
+
+    <div class="services">
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/11498/11498767.png" alt="Registrar Estudiantes" class="bouncing-icon">
+        <h3>Registrar Estudiantes</h3>
+        <p>Agrega nuevos estudiantes al sistema para gestionar sus datos y exámenes.</p>
+        <a href="/estudiantes/new" class="login-button">Ir a Registrar</a>
+      </div>
+
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/10492/10492954.png" alt="Registrar Pruebas" class="bouncing-icon">
+        <h3>Registrar Pruebas</h3>
+        <p>Asocia exámenes a estudiantes para registrar sus resultados.</p>
+        <a href="/registrarPrueba.html" class="login-button">Ir a Pruebas</a>
+      </div>
+
+      <div class="service-card">
+        <img src="https://cdn-icons-png.flaticon.com/128/6819/6819117.png" alt="Ver Estudiantes" class="bouncing-icon">
+        <h3>Ver Estudiantes</h3>
+        <p>Consulta la lista de estudiantes y sus detalles.</p>
+        <a href="/estudiantes.html" class="login-button">Ver Estudiantes</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Sistema Saber Pro. Todos los derechos reservados - Melissa Hernández.
+  </footer>
+</body>
+</html>
