@@ -82,15 +82,36 @@
     }
 
     .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.2);
-      color: white;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
+		width: 100%;
+		padding: 10px;
+		border: none;
+		border-radius: 10px;
+		background-color: rgba(255, 255, 255, 0.2);
+		color: white; /* Color del texto seleccionado */
+		font-size: 1rem;
+		box-sizing: border-box;
+		-webkit-appearance: none; /* Quitar estilo nativo en Chrome/Safari */
+		-moz-appearance: none; /* Quitar estilo nativo en Firefox */
+		appearance: none; /* Quitar estilo nativo */
+		background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Flecha personalizada */
+		background-repeat: no-repeat;
+		background-position: right 10px center;
+	}
+
+	/* Estilo para las opciones */
+	.form-group select option {
+		color: black; /* Color del texto de las opciones */
+		background-color: white; /* Fondo de las opciones */
+	}
+
+	/* Asegurar que el dropdown sea lo suficientemente ancho */
+	.form-group select::-webkit-scrollbar {
+		width: 8px;
+	}
+	.form-group select::-webkit-scrollbar-thumb {
+		background-color: #8b5cf6;
+		border-radius: 10px;
+	}
 
     .form-group input::placeholder, .form-group select::placeholder {
       color: #e5e7eb;
@@ -170,7 +191,7 @@
       <form id="pruebaForm" method="post" onsubmit="return validarFormulario()">
         <div class="form-group">
           <label for="documento">Estudiante</label>
-          <select id="documento" name="documento" style="color=black" required>
+          <select id="documento" name="documento" required>
             <option value="" disabled selected>Selecciona un estudiante</option>
           </select>
           <div id="errorDocumento" class="error">Debes seleccionar un estudiante.</div>
