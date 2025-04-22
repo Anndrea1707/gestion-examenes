@@ -111,6 +111,22 @@
         transform: translateY(-15px);
       }
     }
+	.nivel-1 {
+	  color: #ff0000; /* Rojo */
+	  font-weight: bold;
+	}
+	.nivel-2 {
+	  color: #0000ff; /* Azul */
+	  font-weight: bold;
+	}
+	.nivel-3 {
+	  color: #ffff00; /* Amarillo */
+	  font-weight: bold;
+	}
+	.nivel-4 {
+	  color: #00ff00; /* Verde */
+	  font-weight: bold;
+	}
   </style>
 </head>
 <body>
@@ -135,6 +151,28 @@
   </footer>
 
   <script>
+	// Función para formatear el nivel con el color correspondiente
+	function formatNivel(nivel) {
+	  if (!nivel || nivel === 'No aplica') return nivel; // Si el nivel es "No aplica", no aplicamos formato
+	  let className = '';
+	  switch (nivel) {
+	    case 'Nivel 1':
+	      className = 'nivel-1';
+	      break;
+	    case 'Nivel 2':
+	      className = 'nivel-2';
+	      break;
+	    case 'Nivel 3':
+	      className = 'nivel-3';
+	      break;
+	    case 'Nivel 4':
+	      className = 'nivel-4';
+	      break;
+	    default:
+	      return nivel; // Si no es un nivel 1-4, devolvemos el texto sin formato
+	  }
+	  return `<span class="${className}">${nivel}</span>`;
+	}
     // Obtener el documento desde los parámetros de consulta
     const urlParams = new URLSearchParams(window.location.search);
     const documento = urlParams.get('documento');
