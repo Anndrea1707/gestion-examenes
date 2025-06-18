@@ -1,32 +1,36 @@
-Sistema de Gestión de Exámenes Saber Pro
-Descripción
-Aplicación Spring Boot para gestionar resultados de pruebas Saber Pro. Permite a estudiantes ver sus resultados y a coordinadores administrar estudiantes y pruebas.
-URL Desplegada
-https://gestion-examenes.onrender.com (Actualizar con la URL real después del despliegue)
-Credenciales de Prueba
+# 🎓 Sistema de Gestión de Exámenes Saber Pro
 
-Estudiante:
-Documento: 1095300220
-Contraseña: contrasena123
+Aplicación web desarrollada con Spring Boot para la administración de resultados de pruebas Saber Pro. Permite a los estudiantes consultar sus resultados y a los coordinadores gestionar estudiantes y evaluaciones.
 
+---
 
-Coordinador:
-Documento: 1234567890
-Contraseña: admin123
+## 🌐 URL del Proyecto Desplegado
 
+🔗 [https://gestion-examenes.onrender.com](https://gestion-examenes.onrender.com) *(puede tardar unos segundos en iniciar)*
 
+---
 
-Tecnologías
+## 👤 Credenciales de Prueba
 
-Spring Boot 3.2.5
-MongoDB Atlas
-Docker
-Render
+### Coordinador  
+- **Documento:** 1234567890  
+- **Contraseña:** admin123
 
-Instrucciones
+---
 
-Accede a la URL desplegada.
-Inicia sesión con las credenciales proporcionadas.
-Explora las funcionalidades de estudiante o coordinador.
+## 🛠️ Tecnologías utilizadas
 
-© 2025 Melissa Hernández
+- Java 17  
+- Spring Boot 3.2.5  
+- MongoDB Atlas  
+- Docker  
+- Render (despliegue)
+
+---
+
+## 👩‍💻 Autoría
+
+- Andrea Hernández – [@Anndrea1707](https://github.com/Anndrea1707)
+
+Este proyecto fue desarrollado como parte del módulo académico de aplicaciones empresariales 
+
